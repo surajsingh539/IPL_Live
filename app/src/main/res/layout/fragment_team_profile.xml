@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.iplplay2win.ipl2017live.team_profileFragment"
+    tools:showIn="@layout/activity_team_profile">
+<android.support.v7.widget.CardView
+    android:id="@+id/team_profile"
+    android:layout_width="match_parent"
+    android:layout_height="250dip"
+    app:cardCornerRadius="0dp"
+    android:padding="16dip">
+
+</android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/player_text"
+        android:layout_below="@id/team_profile"
+        android:padding="16dp"
+        android:text="Players"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/player_text">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/players_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/player_text">
+
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

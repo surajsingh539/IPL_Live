@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="80dip"
+        android:layout_marginLeft="8dip"
+    android:layout_marginRight="8dip"
+    android:layout_marginBottom="4dip"
+    android:layout_marginTop="4dip"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="8dip"
+        android:gravity="center_vertical"
+        android:weightSum="1">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/teamcard_team_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/bg"
+            android:layout_weight="0.1"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Team Name"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="21sp"
+            android:layout_weight="0.99"
+            android:layout_marginLeft="8dp"
+            />
+        <ImageView
+            android:layout_gravity="end|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chevron_right"/>
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
