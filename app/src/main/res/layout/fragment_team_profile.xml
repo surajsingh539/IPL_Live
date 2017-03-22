@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,9 +10,60 @@
 <android.support.v7.widget.CardView
     android:id="@+id/team_profile"
     android:layout_width="match_parent"
-    android:layout_height="250dip"
+    android:layout_height="160dip"
     app:cardCornerRadius="0dp"
     android:padding="16dip">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dip">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/teamlogo"
+            android:src="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dip"
+            android:gravity="center"
+            >
+        <TextView
+            android:id="@+id/teamname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kolkata Knight Riders"
+            android:textSize="20sp"
+            android:textColor="@color/kkr"
+            android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/Stadium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Eden Gardens"
+                android:drawableLeft="@drawable/ic_local_activity"
+                android:textSize="16sp"
+                android:typeface="monospace"
+                />
+            <TextView
+                android:id="@+id/teamowner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Owner"
+                android:drawableLeft="@drawable/ic_owner"
+                android:textSize="16sp"
+                android:typeface="monospace"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>
     <TextView
