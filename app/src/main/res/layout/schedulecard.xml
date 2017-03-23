@@ -48,34 +48,37 @@
         android:layout_weight="0.8"
         android:gravity="center"
         >
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="DAY 1"
-    android:layout_margin="2dp"
-    android:paddingStart="8dip"
-    android:paddingEnd="8dip"
-    android:paddingTop="4dip"
-    android:paddingBottom="4dip"
-    android:textColor="@color/cardview_dark_background"
-    android:background="#e1e1e1"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="24th April"
-            android:padding="4dip"
-            android:textSize="16sp"
-            android:textAllCaps="true"
-            />
 
         <TextView
+            android:id="@+id/day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="28sp"
+            android:layout_margin="2dp"
+            android:background="#e1e1e1"
+            android:paddingBottom="4dip"
+            android:paddingEnd="8dip"
+            android:paddingStart="8dip"
+            android:paddingTop="4dip"
+            android:text="DAY 1"
+            android:textColor="@color/cardview_dark_background" />
+
+        <TextView
+            android:id="@+id/match_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dip"
+            android:text="24th April"
+            android:textAllCaps="true"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/match_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:padding="2dip"
             android:text="17:00"
             android:textColor="@color/cardview_dark_background"
-            />
+            android:textSize="28sp" />
 
         <TextView
             android:id="@+id/place_schedule"

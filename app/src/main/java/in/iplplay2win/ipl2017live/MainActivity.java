@@ -1,13 +1,16 @@
 package in.iplplay2win.ipl2017live;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,17 +18,39 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        CardView schedulebtn = (CardView) findViewById(R.id.schedulebtn);
+        schedulebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent scheduleintent = new Intent(MainActivity.this,Schedule.class);
+                startActivity(scheduleintent);
+            }
+        });
+        CardView teambtn = (CardView) findViewById(R.id.teambtn);
+        teambtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent teamintent = new Intent(MainActivity.this,team.class);
+                startActivity(teamintent);
+            }
+        });
+        CardView p2wbtn = (CardView) findViewById(R.id.p2wbtn);
+        p2wbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Will be live soon !", Toast.LENGTH_LONG).show();
+
+            }
+        });
+        CardView ttypbtn = (CardView) findViewById(R.id.ttypbtn);
+        ttypbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ttypintent = new Intent(MainActivity.this,team.class);
+                startActivity(ttypintent);
+            }
+        });
     }
 
     @Override

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.iplplay2win.ipl2017live">
-
+<uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,6 +27,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.iplplay2win.ipl2017live.MainActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Schedule"
@@ -36,6 +41,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.iplplay2win.ipl2017live.MainActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".predict_n_win"
@@ -45,6 +55,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.iplplay2win.ipl2017live.MainActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".player_profile"
@@ -54,6 +69,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.iplplay2win.ipl2017live.team" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".team_profile"
@@ -63,6 +83,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.iplplay2win.ipl2017live.team" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 
