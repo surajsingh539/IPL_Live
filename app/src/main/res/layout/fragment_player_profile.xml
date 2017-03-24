@@ -1,11 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="in.iplplay2win.ipl2017live.player_profileFragment"
     tools:showIn="@layout/activity_player_profile">
 
+<android.support.v7.widget.CardView
+    android:id="@+id/playercard"
+    android:layout_width="match_parent"
+    android:layout_height="200dip"
+    app:cardCornerRadius="0dip"
+    android:padding="16dip">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/gg"
+        android:layout_gravity="center"/>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/players_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gautam Gambir"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:padding="16dip"
+        android:layout_below="@id/playercard"
+        android:textColor="@color/cardview_dark_background"/>
+    <TextView
+        android:id="@+id/bat_bowl_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Batsman"
+        android:textSize="22sp"
+        android:paddingLeft="20dp"
+        android:layout_below="@id/players_name"
+        android:layout_marginTop="-10dp"/>
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="26 Yrs"
+        android:textSize="22sp"
+        android:paddingLeft="20dp"
+        android:layout_below="@id/bat_bowl_all"/>
+    <TextView
+        android:id="@+id/Country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="India"
+        android:textSize="22sp"
+        android:paddingLeft="20dp"
+        android:layout_below="@id/age"/>
+
+     <android.support.v7.widget.CardView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         >
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:layout_margin="8dp">
+
+
+         <TextView
+             android:id="@+id/talknow"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Talk Now"
+             android:textSize="26sp"
+             android:textStyle="bold"
+             android:textColor="@color/colorPrimary"
+             />
+
+         <LinearLayout
+             android:id="@+id/llsocial"
+             android:layout_width="match_parent"
+             android:layout_height="60dip"
+             android:weightSum="1"
+             >
+        <Button
+            android:id="@+id/facebook_link"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Facebook"
+            android:layout_weight="0.5"/>
+        <Button
+            android:id="@+id/twitter_link"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Twitter"
+            android:layout_weight="0.5"/>
+         </LinearLayout>
+         </LinearLayout>
+     </android.support.v7.widget.CardView>
+
+</RelativeLayout>

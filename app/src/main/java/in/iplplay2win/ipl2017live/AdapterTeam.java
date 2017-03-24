@@ -3,6 +3,7 @@ package in.iplplay2win.ipl2017live;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,8 @@ class AdapterTeam extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .placeholder(R.drawable.ic_img_placeholder)
                 .error(R.drawable.ic_img_error)
                 .into(myHolder.teamlogo);
+     //   myHolder.teamID.setText(current.TeamID);
     }
-
 
     @Override
     public int getItemCount() {
@@ -62,6 +63,7 @@ class AdapterTeam extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private class MyHolder extends RecyclerView.ViewHolder {
         ImageView teamlogo;
         TextView TeamName;
+        //TextView teamID;
 
         public MyHolder(View itemView) {
             super(itemView);
@@ -69,11 +71,17 @@ class AdapterTeam extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             teamlogo=(ImageView)itemView.findViewById(R.id.team_logo);
 
             TeamName =(TextView) itemView.findViewById(R.id.teamName);
+        //    teamID=(TextView)itemView.findViewById(R.id.teamID);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent teamdetails = new Intent(context,team_profile.class);
+
+                    //// TODO: 24-03-2017  putExtra ko dang sehe karna hai... Abhi current.TeamID sehe problem ho raha hai. NulPointer Exception Ka
+
+//                    teamdetails.putExtra("TeamName",);
+//                    Log.e("TeamID", "onClick"+current.TeamID );
                     context.startActivity(teamdetails);
                 }
             });

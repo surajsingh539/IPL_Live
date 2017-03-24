@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="Team Name"
             android:textColor="@color/cardview_dark_background"
-            android:textSize="21sp"
+            android:textSize="18sp"
             android:layout_weight="0.99"
             android:layout_marginLeft="8dp"
             />
@@ -41,6 +41,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_chevron_right"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/teamID"
+        android:visibility="invisible"/>
     </android.support.v7.widget.CardView>
 
 

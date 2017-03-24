@@ -64,7 +64,6 @@ public class AdapterSchedule extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 .into(myHolder.teamBlogo);
     }
 
-
     @Override
     public int getItemCount() {
         return data.size();

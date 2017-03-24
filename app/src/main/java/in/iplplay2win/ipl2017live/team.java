@@ -40,7 +40,6 @@ public class team extends AppCompatActivity {
     private RecyclerView mTeamRV;
     private AdapterTeam mTeamAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +53,6 @@ public class team extends AppCompatActivity {
         toolbar.setTitle(select_title);
         //Make call to AsyncTask
         new AsyncFetch().execute();
-
 
     }
     private class AsyncFetch extends AsyncTask<String, String, String> {
@@ -146,7 +144,6 @@ public class team extends AppCompatActivity {
             Log.e("result", result);
 
             //this method will be running on UI thread
-
             pdLoading.dismiss();
             List<TeamData> data=new ArrayList<>();
 
@@ -161,6 +158,7 @@ public class team extends AppCompatActivity {
                     TeamData teamData = new TeamData();
                     teamData.TeamLogo= json_data.getString("logo");
                     teamData.TeamName= json_data.getString("full_name");
+                    teamData.TeamID=json_data.getString("teamid");
 
                     data.add(teamData);
                 }
