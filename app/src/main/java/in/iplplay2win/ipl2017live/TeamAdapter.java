@@ -23,21 +23,22 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
      Context context;
      List<team_L> teamList;
 
-    public TeamAdapter(Context context, List<team_L> teamList) {
+    public TeamAdapter(Context context,int res, List<team_L> teamList) {
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View TeamCardView = LayoutInflater.from(parent.getContext()).inflate(R.layout.teamcard,parent,false);
-        return new TeamAdapter.ViewHolder(TeamCardView);
+        return new ViewHolder(TeamCardView);
+
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-      holder.TeamName.setText(teamList.get(position).getteam_full());
-        Glide.with(context).load(teamList.get(position).getteamlogo()).into(holder.TeamLogo);
+        holder.TeamName.setText(teamList.get(position).getTeam_full());
+        Glide.with(context).load(teamList.get(position).getTeamlogo()).into(holder.TeamLogo);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package in.iplplay2win.ipl2017live;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,29 +9,29 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.iplplay2win.ipl2017live.utils.*;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class Schedule extends AppCompatActivity {
-    Context context;
-
-      RecyclerView scheduleview;
-      CustomAdapter scheduleAdapter;
-      LinearLayoutManager linearlayout;
-      List<ScheduleList> scheduleList;
+    // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
+    private RecyclerView mScheduleRV;
+    private AdapterSchedule mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,87 +40,132 @@ public class Schedule extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        scheduleview= (RecyclerView) findViewById(R.id.schedule_rv);
-        scheduleList = new ArrayList<>();
-        load_schedule_from_server(0);
-
-        scheduleview.setLayoutManager(linearlayout);
-        scheduleAdapter = new CustomAdapter(context,scheduleList);
-        scheduleview.setAdapter(scheduleAdapter);
-        scheduleview.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                if (linearlayout.findLastCompletelyVisibleItemPosition()==scheduleList.size()-1){
-                    load_schedule_from_server(scheduleList.get(scheduleList.size()-1).getScheduleid());
-                }
-            }
-        });
+        //Make call to AsyncTask
+        new AsyncFetch().execute();
     }
 
-    private void load_schedule_from_server(int id) {
+    private class AsyncFetch extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(Schedule.this);
+        HttpURLConnection conn;
+        URL url = null;
 
-        AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
-            @Override
-            protected Void doInBackground(Integer... params) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
-                OkHttpClient scheduleclient = new OkHttpClient();
-                Request request = new Request.Builder()
-                                .url(Urls.URL_SCHEDULE)
-                        .build();
-                try {
-                    Response response = scheduleclient.newCall(request).execute();
-                    Log.e("Response", "doInBackground: "+response );
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
 
-                    JSONArray schedule_list_array = new JSONArray(response.body().string());
+        }
 
-                    for (int i=1; i<schedule_list_array.length(); i++){
-                        JSONObject object = schedule_list_array.getJSONObject(i);
+        @Override
+        protected String doInBackground(String... params) {
+            try {
 
-                        JSONArray c= object.getJSONArray("result");
-                        for (int t=1 ;t<c.length(); t++) {
-                            JSONObject co = c.getJSONObject(t);
+                // Enter URL address where your json file resides
+                // Even you can make call to php file which returns json data
+                url = new URL(Urls.URL_SCHEDULE);
 
-                        int teamslogo = co.getInt("logo");
-                        String teamsShort = co.getString("short_name");
-                            Log.e("teams", teamslogo+teamsShort );
-                        }
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
 
-                        int SID =      object.getInt("schedule_id");
-                        String sdays = object.getString("day");
-                        String dates = object.getString("date");
-                        String stime = object.getString("time");
-                        String svenue= object.getString("place");
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("GET");
 
-                        ScheduleList schedule = new ScheduleList(SID,sdays,dates,stime,svenue);
-//                        for (int t=0; t<teamsab.length(); t++){
-//                            JSONObject teamobjects = new teamsab.getJSONObject(t);
-//                        }
-                        Log.e("Requests", SID + sdays + dates + stime +svenue );
+                // setDoOutput to true as we recieve data from json file
+                conn.setDoOutput(true);
 
-                        scheduleList.add(schedule);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return e1.toString();
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
                     }
 
-                    Log.e("Response", "doInBackground: "+ schedule_list_array );
+                    // Pass data to onPostExecute method
+                    return (result.toString());
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                   // Log.e("JSONSChedule Error", "doInBackground:"+e+""+SID +teamslogo,teamShort,sdays,dates,stime,svenue+"" );
+                } else {
+
+                    return ("unsuccessful");
                 }
-                return null;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
             }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                scheduleAdapter.notifyDataSetChanged();
-            }
-        };
 
-        task.execute(id);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //this method will be running on UI thread
+
+            pdLoading.dismiss();
+            List<ScheduleData> data=new ArrayList<>();
+
+            pdLoading.dismiss();
+            try {
+
+                JSONArray jArray = new JSONArray(result);
+
+                // Extract data from json and store into ArrayList as class objects
+                for(int i=0;i<jArray.length();i++){
+                    JSONObject json_data = jArray.getJSONObject(i);
+                    ScheduleData scheduleData = new ScheduleData();
+                    scheduleData.teamAlogo= json_data.getString("team_A_logo");
+                    scheduleData.teamBlogo= json_data.getString("team_B_logo");
+                    scheduleData.teamAShort_name= json_data.getString("team_A_short_name");
+                    scheduleData.teamBShort_name= json_data.getString("team_B_short_name");
+                    scheduleData.day= json_data.getString("day");
+                    scheduleData.date=json_data.getInt("date");
+                    scheduleData.time=json_data.getString("time");
+                    scheduleData.place=json_data.getString("place");
+
+                    data.add(scheduleData);
+                }
+
+                // Setup and Handover data to recyclerview
+                mScheduleRV = (RecyclerView)findViewById(R.id.schedule_rv);
+                mAdapter = new AdapterSchedule(Schedule.this, data);
+                mScheduleRV.setAdapter(mAdapter);
+                mScheduleRV.setLayoutManager(new LinearLayoutManager(Schedule.this));
+
+            } catch (JSONException e) {
+                Toast.makeText(Schedule.this, e.toString(), Toast.LENGTH_LONG).show();
+                Log.e("JSONException", "onPostExecute:"+e.toString()+"" );
+            }
+
+        }
+
     }
-
 }

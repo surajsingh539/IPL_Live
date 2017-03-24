@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         p2wbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Will be live soon !", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Will be live while IPL matches !", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent ttypintent = new Intent(MainActivity.this,team.class);
+                ttypintent.putExtra("Select Team","Select Team");
                 startActivity(ttypintent);
             }
         });

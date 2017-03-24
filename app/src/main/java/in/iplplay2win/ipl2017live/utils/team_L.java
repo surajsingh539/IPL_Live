@@ -7,45 +7,45 @@ package in.iplplay2win.ipl2017live.utils;
 public class team_L {
 
     private int TeamID;
-    private String teamshort,teamlogo, team_full;
-
-    public team_L(int TeamID, String teamshort, String teamlogo, String team) {
-        this.TeamID = TeamID;
-        this.teamshort = teamshort;
-        this.teamlogo = teamlogo;
-        this.team_full = team;
-    }
+    private String Teamshort, Team_full,Teamlogo;
 
     public int getTeamID() {
         return TeamID;
     }
 
     public void setTeamID(int teamID) {
-        this.TeamID = TeamID;
+        TeamID = teamID;
     }
 
-
-    public String getteamshort() {
-        return teamshort;
+    public String getTeamshort() {
+        return Teamshort;
     }
 
-    public void setteamshort(String teamshort) {
-        this.teamshort = teamshort;
+    public void setTeamshort(String teamshort) {
+        Teamshort = teamshort;
     }
 
-    public String getteamlogo() {
-        return teamlogo;
+    public String getTeam_full() {
+        return Team_full;
     }
 
-    public void setteamlogo(String teamlogo) {
-        this.teamlogo = teamlogo;
+    public void setTeam_full(String team_full) {
+        Team_full = team_full;
     }
 
-    public String getteam_full() {
-        return team_full;
+    public String getTeamlogo() {
+        return Teamlogo;
     }
 
-    public void setteam(String team_full) {
-        this.team_full = team_full;
+    public void setTeamlogo(String teamlogo) {
+        Teamlogo = teamlogo;
+    }
+
+    public team_L(int teamID, String teamshort, String team_full, String teamlogo) {
+        TeamID = teamID;
+        Teamshort = teamshort;
+        Team_full = team_full;
+        Teamlogo = teamlogo;
     }
 }
+
