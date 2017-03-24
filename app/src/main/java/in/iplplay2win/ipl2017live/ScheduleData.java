@@ -6,8 +6,7 @@ package in.iplplay2win.ipl2017live;
 
 class ScheduleData {
 
-    String teamAlogo, teamBlogo,teamAShort_name,teamBShort_name,day,time,place;
-    int  date;
+    String teamAlogo, teamBlogo,teamAShort_name,teamBShort_name,day,time,place,date;
 
 
 }

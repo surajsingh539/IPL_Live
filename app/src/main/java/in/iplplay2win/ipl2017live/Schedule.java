@@ -77,20 +77,20 @@ public class Schedule extends AppCompatActivity {
 
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                //conn.setReadTimeout(READ_TIMEOUT);
+                //conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("GET");
 
                 // setDoOutput to true as we recieve data from json file
-                conn.setDoOutput(true);
+                //conn.setDoOutput(true);
 
-            } catch (IOException e1) {
+            /*} catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }
 
-            try {
+            try {*/
 
                 int response_code = conn.getResponseCode();
 
@@ -104,15 +104,18 @@ public class Schedule extends AppCompatActivity {
                     String line;
 
                     while ((line = reader.readLine()) != null) {
+                        Log.e("line", line);
                         result.append(line);
                     }
+                    reader.close();
 
                     // Pass data to onPostExecute method
-                    return (result.toString());
+                    return result.toString();
 
-                } else {
+                }
+                else {
 
-                    return ("unsuccessful");
+                    return "unsuccessful";
                 }
 
             } catch (IOException e) {
@@ -127,6 +130,7 @@ public class Schedule extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
+            Log.e("result", result);
 
             //this method will be running on UI thread
 
@@ -135,9 +139,8 @@ public class Schedule extends AppCompatActivity {
 
             pdLoading.dismiss();
             try {
-
-                JSONArray jArray = new JSONArray(result);
-
+                JSONObject jObj = new JSONObject("{\"results\":" + result + "}");
+                JSONArray jArray = jObj.optJSONArray("results");
                 // Extract data from json and store into ArrayList as class objects
                 for(int i=0;i<jArray.length();i++){
                     JSONObject json_data = jArray.getJSONObject(i);
@@ -147,7 +150,7 @@ public class Schedule extends AppCompatActivity {
                     scheduleData.teamAShort_name= json_data.getString("team_A_short_name");
                     scheduleData.teamBShort_name= json_data.getString("team_B_short_name");
                     scheduleData.day= json_data.getString("day");
-                    scheduleData.date=json_data.getInt("date");
+                    scheduleData.date= json_data.getString("date");
                     scheduleData.time=json_data.getString("time");
                     scheduleData.place=json_data.getString("place");
 

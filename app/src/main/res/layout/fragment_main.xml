@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/ic_flash"
-                android:text="Predict &#38; Win"
+                android:text="Predict2Win"
                 android:textAllCaps="true"
                 android:textColor="#46faf8"
                 android:textSize="16sp" />
@@ -207,7 +207,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_talk"
-        android:text="  Talk to Your Player"
+        android:text="  Talk2Fav.Player"
         android:textAllCaps="true"
         android:textColor="#46faf8"
         android:textSize="16sp" />
@@ -217,6 +217,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="4dp"
         android:src="@drawable/ic_check_circle"/>
+
 </LinearLayout>
 
         </android.support.v7.widget.CardView>

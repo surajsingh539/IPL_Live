@@ -70,7 +70,7 @@ public class AdapterSchedule extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return data.size();
     }
 
-    class MyHolder extends RecyclerView.ViewHolder {
+    private class MyHolder extends RecyclerView.ViewHolder {
         ImageView teamAlogo, teamBlogo;
         TextView Day, Time, Place, Date, TeamAShort_Name, TeamBShort_Name;
 

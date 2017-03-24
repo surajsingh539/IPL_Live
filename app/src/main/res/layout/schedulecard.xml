@@ -75,7 +75,6 @@
             android:id="@+id/match_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="2dip"
             android:text="17:00"
             android:textColor="@color/cardview_dark_background"
             android:textSize="28sp" />
@@ -86,6 +85,8 @@
             android:layout_height="wrap_content"
             android:padding="4dip"
             android:text="kolkata"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:textAllCaps="true"
             android:textSize="16sp" />
 

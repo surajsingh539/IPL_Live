@@ -1,5 +1,6 @@
 package in.iplplay2win.ipl2017live;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,24 +14,31 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.iplplay2win.ipl2017live.utils.*;
 
 public class team extends AppCompatActivity {
     Context context;
 
-    RecyclerView teamsRV;
-    List<team_L> teamList;
-    TeamAdapter teamAdapter;
-    LinearLayoutManager TeamLinear;
+    // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
+    private RecyclerView mTeamRV;
+    private AdapterTeam mTeamAdapter;
 
 
     @Override
@@ -41,93 +49,135 @@ public class team extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent= getIntent();
+        Intent intent = getIntent();
         String select_title = intent.getStringExtra("Select Title");
         toolbar.setTitle(select_title);
-//        teamsRV = (RecyclerView) findViewById(R.id.teamRV);
-//        teamList = new ArrayList<>();
-//        load_team_from_server(0);
-//
-//        teamsRV.setLayoutManager(TeamLinear);
-//        teamAdapter = new TeamAdapter(context,R.layout.teamcard,teamList);
-//        teamsRV.setAdapter(teamAdapter);
-//        teamsRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//
-//                if (TeamLinear.findLastCompletelyVisibleItemPosition()==teamList.size()-1){
-//                    load_team_from_server(teamList.get(teamList.size()-1).getTeamID());
-//                }
-//            }
-//        });
-    }
+        //Make call to AsyncTask
+        new AsyncFetch().execute();
 
-//    private void load_team_from_server(int team__id) {
-//
-//
-//        AsyncTask<String,String,List<team_L>> task = new AsyncTask<String, String, List<team_L>>() {
-//            @Override
-//            protected List<team_L> doInBackground(String... params) {
-//
-//                OkHttpClient teamlistclient = new OkHttpClient();
-//                Request request = new Request.Builder()
-//                        .url(Urls.URL_TEAM)
-//                        .build();
-//                try {
-//                    Response response = teamlistclient.newCall(request).execute();
-//                    Log.e("Response", "doInBackground: "+response );
-//
-//                    JSONObject schedule_list_array = new JSONObject(response.body().string());
-//                    JSONArray tobject = schedule_list_array.getJSONArray("teams");
-//
-//                    List<team_L> teamLList = new ArrayList<>();
-//
-//                    for (int i=0; i<tobject.length(); i++){
-//                        JSONObject object = tobject.getJSONObject(i);
-//
-//                       // team_L team_l= new team_L();
-//                        String teamsname = object.getString("full_name");
-//                        String teams_short = object.getString("short_name");
-//                        String teamlogo = object.getString("logo");
-//                        int teamid = object.getInt("teamid");
-//
-//                        team_L team_l = new team_L(teamid,teamsname, teams_short,teamlogo);
-//
-//                        team_l.setTeam_full(teamsname);
-//                        team_l.setTeamshort(teams_short);
-//                        team_l.setTeamlogo(teamlogo);
-//
-//                        Log.i("teamkalist_teamid", String.valueOf((teamid)));
-//                        Log.i("teamkalist_short",teams_short);
-//                        Log.i("teamkalist_logo",teamlogo);
-//                        Log.i("teamkalist_name",teamsname);
-//
-//                        teamLList.add(team_l);
-//
-//                    }
-//                    return teamLList;
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    // Log.e("JSONSChedule Error", "doInBackground:"+e+""+SID +teamslogo,teamShort,sdays,dates,stime,svenue+"" );
-//                }
-//                return null;
-//
-//            }
-//
-//            @Override
-//            protected void onPostExecute(List<team_L> result) {
-//                super.onPostExecute(result);
-//
-//                TeamAdapter teamAdapter= new TeamAdapter(getApplicationContext(),R.layout.teamcard,result);
-//                teamsRV.setAdapter(teamAdapter);
-//            }
-//        };
-//
-//
-//        task.execute(String.valueOf(team__id));
-//    }
+
+    }
+    private class AsyncFetch extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(team.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                // Enter URL address where your json file resides
+                // Even you can make call to php file which returns json data
+                url = new URL(Urls.URL_TEAM);
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                //conn.setReadTimeout(READ_TIMEOUT);
+                //conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("GET");
+
+                // setDoOutput to true as we recieve data from json file
+                //conn.setDoOutput(true);
+
+            /*} catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return e1.toString();
+            }
+
+            try {*/
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        Log.e("line", line);
+                        result.append(line);
+                    }
+                    reader.close();
+
+                    // Pass data to onPostExecute method
+                    return result.toString();
+
+                }
+                else {
+
+                    return "unsuccessful";
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.e("result", result);
+
+            //this method will be running on UI thread
+
+            pdLoading.dismiss();
+            List<TeamData> data=new ArrayList<>();
+
+            pdLoading.dismiss();
+            try {
+               // JSONObject jObj = new JSONObject("{\"results\":" + result + "}");
+                JSONObject jObj = new JSONObject(result);
+                JSONArray jArray = jObj.optJSONArray("teams");
+                // Extract data from json and store into ArrayList as class objects
+                for(int i=0;i<jArray.length();i++){
+                    JSONObject json_data = jArray.getJSONObject(i);
+                    TeamData teamData = new TeamData();
+                    teamData.TeamLogo= json_data.getString("logo");
+                    teamData.TeamName= json_data.getString("full_name");
+
+                    data.add(teamData);
+                }
+
+                // Setup and Handover data to recyclerview
+                mTeamRV = (RecyclerView)findViewById(R.id.teamRV);
+                mTeamAdapter = new AdapterTeam(team.this, data);
+                mTeamRV.setAdapter(mTeamAdapter);
+                mTeamRV.setLayoutManager(new LinearLayoutManager(team.this));
+
+            } catch (JSONException e) {
+                Toast.makeText(team.this, e.toString(), Toast.LENGTH_LONG).show();
+                Log.e("JSONException", "onPostExecute:"+e.toString()+"" );
+            }
+
+        }
+
+    }
 
 }
