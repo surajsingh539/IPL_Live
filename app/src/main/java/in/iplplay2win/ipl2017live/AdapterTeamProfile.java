@@ -16,53 +16,55 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Anand on 24-03-2017.
+ * Created by Anand on 25-03-2017.
  */
 
-class AdapterTeam extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class AdapterTeamProfile extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+
 
     private Context context;
     private LayoutInflater inflater;
-    List<TeamData> data= Collections.emptyList();
+    List<Team_ProfileData> data= Collections.emptyList();
     TeamData current;
     int currentPos=0;
 
-    public AdapterTeam(Context context, List<TeamData> data) {
+    public AdapterTeamProfile(Context context, List<Team_ProfileData> data) {
+
         this.context=context;
         inflater= LayoutInflater.from(context);
         this.data=data;
     }
 
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=inflater.inflate(R.layout.teamcard, parent,false);
-        AdapterTeam.MyHolder holder=new AdapterTeam.MyHolder(view);
+        View view=inflater.inflate(R.layout.playercard, parent,false);
+        MyHolder holder=new MyHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         // Get current position of item in recyclerview to bind data and assign values from list
-        AdapterTeam.MyHolder myHolder= (AdapterTeam.MyHolder) holder;
-        final TeamData current=data.get(position);
-        Log.e("onBindViewHolder", data.size() + " position:" + position + " id:" + current.TeamID +  " name:" + current.TeamName);
-        myHolder.TeamName.setText(current.TeamName);
+        MyHolder myHolder= (MyHolder) holder;
+        final Team_ProfileData current=data.get(position);
+        Log.e("onBindViewHolder", data.size() + " position:" + position + " id:" + current.playerid +  " name:" + current.player_name);
+        myHolder.player_Name.setText(current.player_name);
 
         // load image into imageview using glide
-        Glide.with(context).load(current.TeamLogo)
+        Glide.with(context).load(current.player_image)
                 .placeholder(R.drawable.ic_img_placeholder)
                 .error(R.drawable.ic_img_error)
-                .into(myHolder.teamlogo);
+                .into(myHolder.player_image);
 
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent teamdetails = new Intent(context,team_profile.class);
+                Intent teamdetails = new Intent(context,player_profile.class);
 
-                //// TODO: 24-03-2017  putExtra ko dang sehe karna hai... Abhi current.TeamID sehe problem ho raha hai. NullPointer Exception Ka
                 try {
-                    Log.e("TeamID", "onClick " + current.TeamID);
-                    teamdetails.putExtra("Teamid", current.TeamID + "");
+                    Log.e("TeamID", "onClick " + current.playerid);
+                    teamdetails.putExtra("PlayerID", current.playerid + "");
                     context.startActivity(teamdetails);
                 }
                 catch(NullPointerException e){
@@ -70,7 +72,6 @@ class AdapterTeam extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
-     //   myHolder.teamID.setText(current.TeamID);
     }
 
     @Override
@@ -79,17 +80,17 @@ class AdapterTeam extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private class MyHolder extends RecyclerView.ViewHolder {
-        ImageView teamlogo;
-        TextView TeamName;
+        ImageView player_image;
+        TextView player_Name;
         //TextView teamID;
 
         public MyHolder(View itemView) {
             super(itemView);
 
-            teamlogo=(ImageView)itemView.findViewById(R.id.team_logo);
+            player_image=(ImageView)itemView.findViewById(R.id.player_image);
 
-            TeamName =(TextView) itemView.findViewById(R.id.teamName);
-        //    teamID=(TextView)itemView.findViewById(R.id.teamID);
+            player_Name =(TextView) itemView.findViewById(R.id.player_name);
+            //    teamID=(TextView)itemView.findViewById(R.id.teamID);
         }
     }
 }

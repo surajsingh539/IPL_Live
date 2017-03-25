@@ -145,23 +145,26 @@ public class team extends AppCompatActivity {
 
             //this method will be running on UI thread
             pdLoading.dismiss();
-            List<TeamData> data=new ArrayList<>();
+            List<TeamData> data=new ArrayList<TeamData>();
 
             pdLoading.dismiss();
             try {
-               // JSONObject jObj = new JSONObject("{\"results\":" + result + "}");
+                //JSONObject jObj = new JSONObject("{\"results\":" + result + "}");
                 JSONObject jObj = new JSONObject(result);
                 JSONArray jArray = jObj.optJSONArray("teams");
                 // Extract data from json and store into ArrayList as class objects
                 for(int i=0;i<jArray.length();i++){
                     JSONObject json_data = jArray.getJSONObject(i);
                     TeamData teamData = new TeamData();
-                    teamData.TeamLogo= json_data.getString("logo");
-                    teamData.TeamName= json_data.getString("full_name");
-                    teamData.TeamID=json_data.getString("teamid");
+                    teamData.TeamLogo= json_data.optString("logo");
+                    teamData.TeamName= json_data.optString("full_name");
+                    //teamData.TeamID=json_data.getString("teamid");
+                    teamData.TeamID=json_data.optInt("teamid")+"";
 
                     data.add(teamData);
                 }
+
+                Log.e("data count", data.size()+"");
 
                 // Setup and Handover data to recyclerview
                 mTeamRV = (RecyclerView)findViewById(R.id.teamRV);
