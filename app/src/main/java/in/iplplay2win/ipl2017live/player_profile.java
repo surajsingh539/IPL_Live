@@ -58,17 +58,6 @@ public class player_profile extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        PlayersName=(TextView)findViewById(R.id.players_name);
-        Format_bat_ball=(TextView)findViewById(R.id.bat_bowl_all);
-        mCountry=(TextView)findViewById(R.id.country);
-        age=(TextView)findViewById(R.id.age);
-
-        facebook_link_btn=(Button) findViewById(R.id.facebook_link);
-        twitter_link_btn=(Button) findViewById(R.id.twitter_link);
-
-        PlayerDP=(ImageView) findViewById(R.id.player_image_dp);
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             playerid = Integer.parseInt(extras.getString("PlayerID"));
@@ -99,6 +88,7 @@ public class player_profile extends AppCompatActivity {
                 // Enter URL address where your json file resides
                 // Even you can make call to php file which returns json data
                 //url = new URL(Urls.URL_PLAYERS_LIST_TEAMS);
+
                 url = new URL(Urls.URL_PLAYER_INFO + playerid);
                 Log.i("URL", "doInBackground:"+url);
             } catch (MalformedURLException e) {
@@ -149,6 +139,7 @@ public class player_profile extends AppCompatActivity {
                 else {
 
                     return "unsuccessful";
+
                 }
 
             } catch (IOException e) {
@@ -177,6 +168,16 @@ public class player_profile extends AppCompatActivity {
 
 //                    JSONObject json_data = jArray.getJSONObject(1);
 
+                PlayersName=(TextView) findViewById(R.id.players_name);
+                Format_bat_ball=(TextView)findViewById(R.id.bat_bowl_all);
+                mCountry=(TextView)findViewById(R.id.country);
+                age=(TextView)findViewById(R.id.age);
+
+                facebook_link_btn=(Button) findViewById(R.id.facebook_link);
+                twitter_link_btn=(Button) findViewById(R.id.twitter_link);
+
+                PlayerDP=(ImageView) findViewById(R.id.player_image_dp);
+
                     image_link= json_data.getString("player_image");
                     PlayerName= json_data.getString("player_name");
                     Age=json_data.getString("age");
@@ -192,7 +193,7 @@ public class player_profile extends AppCompatActivity {
                     mCountry.setText(country);
                     Format_bat_ball.setText(bat_bowl);
 
-                    Glide.with(context).load(image_link)
+                    Glide.with(player_profile.this).load(image_link)
                             .placeholder(R.drawable.ic_img_placeholder)
                             .error(R.drawable.ic_img_error)
                             .into(PlayerDP);
