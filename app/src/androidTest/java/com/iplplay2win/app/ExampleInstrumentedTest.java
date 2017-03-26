@@ -1,4 +1,4 @@
-package in.iplplay2win.ipl2017live;
+package com.iplplay2win.app;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package in.iplplay2win.ipl2017live;
+package com.iplplay2win.app;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class teamFragment extends Fragment {
+public class ScheduleFragment extends Fragment {
 
-    public teamFragment() {
+    public ScheduleFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_team, container, false);
+        return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 }

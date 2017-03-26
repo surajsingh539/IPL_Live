@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.iplplay2win.ipl2017live.predict_n_winFragment"
+    tools:context="com.iplplay2win.app.predict_n_winFragment"
     tools:showIn="@layout/activity_predict_n_win">
 
 

@@ -1,4 +1,4 @@
-package in.iplplay2win.ipl2017live;
+package com.iplplay2win.app;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +34,6 @@ class AdapterTeamProfile extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         inflater= LayoutInflater.from(context);
         this.data=data;
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -72,6 +71,7 @@ class AdapterTeamProfile extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
                 }
             }
         });
+
     }
 
     @Override

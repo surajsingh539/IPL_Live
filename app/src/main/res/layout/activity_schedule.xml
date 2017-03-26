@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.iplplay2win.ipl2017live.Schedule">
+    tools:context="com.iplplay2win.app.Schedule">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

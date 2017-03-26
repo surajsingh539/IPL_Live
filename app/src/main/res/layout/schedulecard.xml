@@ -75,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="17:00"
+            android:layout_marginTop="-5dip"
             android:textColor="@color/cardview_dark_background"
             android:textSize="28sp" />
 
@@ -84,6 +85,7 @@
             android:layout_height="wrap_content"
             android:padding="4dip"
             android:text="kolkata"
+            android:layout_marginTop="-5dp"
             android:gravity="center"
             android:layout_gravity="center"
             android:textAllCaps="true"

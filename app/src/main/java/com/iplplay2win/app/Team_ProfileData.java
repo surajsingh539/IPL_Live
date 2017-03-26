@@ -1,4 +1,4 @@
-package in.iplplay2win.ipl2017live;
+package com.iplplay2win.app;
 
 /**
  * Created by Anand on 25-03-2017.

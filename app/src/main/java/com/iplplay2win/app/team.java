@@ -1,25 +1,16 @@
-package in.iplplay2win.ipl2017live;
+package com.iplplay2win.app;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,46 +26,41 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class player_profile extends AppCompatActivity {
 
+public class team extends AppCompatActivity {
     Context context;
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
-
-     ImageView PlayerDP;
-     TextView PlayersName ,Format_bat_ball , mCountry , age;
-     Button facebook_link_btn, twitter_link_btn;
-     int playerid;
-    String PlayerName, Age, country, bat_bowl, facebook_link, twitter_link, image_link;
+    private RecyclerView mTeamRV;
+    private AdapterTeam mTeamAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player_profile);
+        setContentView(R.layout.activity_team);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            playerid = Integer.parseInt(extras.getString("PlayerID"));
-            Log.e("PlayerID", playerid + "");
-        }
+        Intent intent = getIntent();
+        String select_title = intent.getStringExtra("Select Title");
+        toolbar.setTitle(select_title);
+        //Make call to AsyncTask
         new AsyncFetch().execute();
+
     }
     private class AsyncFetch extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(player_profile.this);
+        ProgressDialog pdLoading = new ProgressDialog(team.this);
         HttpURLConnection conn;
-        URL url;
+        URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            //this method will be running on UI threliad
+            //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
             pdLoading.show();
@@ -87,10 +73,8 @@ public class player_profile extends AppCompatActivity {
 
                 // Enter URL address where your json file resides
                 // Even you can make call to php file which returns json data
-                //url = new URL(Urls.URL_PLAYERS_LIST_TEAMS);
+                url = new URL(Urls.URL_TEAM);
 
-                url = new URL(Urls.URL_PLAYER_INFO + playerid);
-                Log.i("URL", "doInBackground:"+url);
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -139,7 +123,6 @@ public class player_profile extends AppCompatActivity {
                 else {
 
                     return "unsuccessful";
-
                 }
 
             } catch (IOException e) {
@@ -158,75 +141,35 @@ public class player_profile extends AppCompatActivity {
 
             //this method will be running on UI thread
             pdLoading.dismiss();
+            List<TeamData> data=new ArrayList<TeamData>();
 
+            pdLoading.dismiss();
             try {
-
-                // JSONObject jObj = new JSONObject("{\"results\":" + result + "}");
+                //JSONObject jObj = new JSONObject("{\"results\":" + result + "}");
                 JSONObject jObj = new JSONObject(result);
-                JSONObject json_data = jObj.optJSONObject("players");
+                JSONArray jArray = jObj.optJSONArray("teams");
                 // Extract data from json and store into ArrayList as class objects
+                for(int i=0;i<jArray.length();i++){
+                    JSONObject json_data = jArray.getJSONObject(i);
+                    TeamData teamData = new TeamData();
+                    teamData.TeamLogo= json_data.optString("logo");
+                    teamData.TeamName= json_data.optString("full_name");
+                    //teamData.TeamID=json_data.getString("teamid");
+                    teamData.TeamID=json_data.optInt("teamid")+"";
 
-//                    JSONObject json_data = jArray.getJSONObject(1);
+                    data.add(teamData);
+                }
 
-                PlayersName=(TextView) findViewById(R.id.players_name);
-                Format_bat_ball=(TextView)findViewById(R.id.bat_bowl_all);
-                mCountry=(TextView)findViewById(R.id.country);
-                age=(TextView)findViewById(R.id.age);
-
-                facebook_link_btn=(Button) findViewById(R.id.facebook_link);
-                twitter_link_btn=(Button) findViewById(R.id.twitter_link);
-
-                PlayerDP=(ImageView) findViewById(R.id.player_image_dp);
-
-                    image_link= json_data.getString("player_image");
-                    PlayerName= json_data.getString("player_name");
-                    Age=json_data.getString("age");
-                    country=json_data.getString("country");
-                    bat_bowl=json_data.getString("bat_bowler");
-                    facebook_link=json_data.getString("facebook");
-                    twitter_link=json_data.getString("twitter");
-
-                Log.e("Profile_Links", "onPostExecute: " + "Player Name" + PlayerName + "country" + country );
-
-                    PlayersName.setText(PlayerName);
-                    age.setText(Age);
-                    mCountry.setText(country);
-                    Format_bat_ball.setText(bat_bowl);
-
-                    Glide.with(player_profile.this).load(image_link)
-                            .placeholder(R.drawable.ic_img_placeholder)
-                            .error(R.drawable.ic_img_error)
-                            .into(PlayerDP);
-
-                    facebook_link_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent fblink = new Intent(Intent.ACTION_VIEW);
-                            fblink.setData(Uri.parse(facebook_link));
-                            startActivity(fblink);
-                        }
-                    });
-                    twitter_link_btn.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            Intent fblink = new Intent(Intent.ACTION_VIEW);
-                            fblink.setData(Uri.parse(twitter_link));
-                            startActivity(fblink);
-                        }
-                    });
-
-//                    data.add(team_profileData);
+                Log.e("data count", data.size()+"");
 
                 // Setup and Handover data to recyclerview
-//                mTeamProfileRV = (RecyclerView)findViewById(R.id.players_list_rv);
-//                mTeamProfileAdapter = new AdapterTeamProfile(team_profile.this, data);
-//                mTeamProfileRV.setAdapter(mTeamProfileAdapter);
-//                mTeamProfileRV.setLayoutManager(new LinearLayoutManager(team_profile.this));
+                mTeamRV = (RecyclerView)findViewById(R.id.teamRV);
+                mTeamAdapter = new AdapterTeam(team.this, data);
+                mTeamRV.setAdapter(mTeamAdapter);
+                mTeamRV.setLayoutManager(new LinearLayoutManager(team.this));
 
             } catch (JSONException e) {
-                Log.e("JSON PlayersList", result );
-                Toast.makeText(player_profile.this, e.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(team.this, e.toString(), Toast.LENGTH_LONG).show();
                 Log.e("JSONException", "onPostExecute:"+e.toString()+"" );
             }
 

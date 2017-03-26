@@ -1,4 +1,4 @@
-package in.iplplay2win.ipl2017live;
+package com.iplplay2win.app;
 
 import android.content.Context;
 import android.content.Intent;
@@ -70,7 +70,7 @@ class AdapterTeam extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
-     //   myHolder.teamID.setText(current.TeamID);
+
     }
 
     @Override
