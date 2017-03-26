@@ -22,8 +22,8 @@ android {
         applicationId "com.iplplay2win.app"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 6
-        versionName "1.1.8.052"
+        versionCode 7
+        versionName "1.2.03"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
